@@ -232,7 +232,7 @@
                     class="pb-4 last:border-0 last:pb-0 transition-colors duration-300"
                     :class="darkMode ? 'border-b border-gray-600' : 'border-b border-gray-200'">
                     <h3 class="font-semibold text-sm mb-1" :class="darkMode ? 'text-white' : 'text-black'">{{ edu.degree
-                      }}</h3>
+                    }}</h3>
                     <p class="text-sm mb-1" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{ edu.school }}</p>
                     <p class="text-xs" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">{{ edu.year }}</p>
                   </div>
@@ -279,7 +279,7 @@ const darkMode = ref(false);
 const showResumeModal = ref(false);
 const showProjectModal = ref(false);
 const selectedProject = ref(null);
-const resumePdfUrl = ref('/resume/MARCO-NICOLAS_CV.pdf');
+const resumePdfUrl = ref('/public/resume/MARCO-NICOLAS_CV.pdf');
 
 const profile = ref({
   name: 'Jan Marco Nicolas',
