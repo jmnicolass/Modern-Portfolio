@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "/*"
+  to = "/src/App.vue"
+  status = 200
+
+[[headers]]
+  for = "/*.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Content-Disposition = "attachment"
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18" 
