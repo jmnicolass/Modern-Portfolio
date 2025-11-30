@@ -279,7 +279,7 @@ const darkMode = ref(false);
 const showResumeModal = ref(false);
 const showProjectModal = ref(false);
 const selectedProject = ref(null);
-const resumePdfUrl = ref('/public/resume/MARCO-NICOLAS_CV.pdf');
+const resumePdfUrl = ref('/resume/MARCO-NICOLAS_CV.pdf');
 
 const profile = ref({
   name: 'Jan Marco Nicolas',
