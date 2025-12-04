@@ -153,7 +153,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                      }}</p>
+                    }}</p>
                   </div>
                 </div>
               </div>
@@ -172,7 +172,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                    }}</h3>
+                      }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -400,7 +400,7 @@ const projects = ref([
   {
     id: 1,
     title: 'Travel & Tours',
-    description: 'It is a capstone project for a travel and tours company to automate their booking system, create packages, offer seasonal promotions, and track their income and bookings.',
+    description: 'This is a freelance capstone project for a travel and tours company, aimed at automating their booking system, creating customizable travel packages, offering seasonal promotions, and tracking both income and overall bookings.',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Tailwind CSS'],
     link: '#'
   }
