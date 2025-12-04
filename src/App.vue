@@ -349,7 +349,7 @@ const profile = ref({
   name: 'Jan Marco Nicolas',
   location: 'Biñan City, Laguna, Philippines',
   title: 'Associate Software Engineer',
-  bio: 'As an associate software engineer, I am driven by curiosity and a strong desire to solve problems. I take pleasure in breaking down complex challenges and transforming them into clear, effective solutions.'
+  bio: 'As a Front-End Developer, I am driven by curiosity and a strong desire to solve problems. I take pleasure in breaking down complex challenges and transforming them into clear, effective solutions.'
 });
 
 const openResumeModal = () => {
