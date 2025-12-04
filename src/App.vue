@@ -134,8 +134,8 @@
         </svg>
       </button>
 
-      <div class="flex-1 h-full p-8 min-h-0 overflow-y-auto">
-        <div class="grid grid-cols-3 gap-6 items-stretch h-full">
+      <div class="flex-1 h-full min-h-0 overflow-y-auto flex flex-col">
+        <div class="grid grid-cols-3 gap-6 items-stretch flex-1 p-8">
 
           <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
@@ -324,12 +324,11 @@
             </section>
           </div>
         </div>
+        <footer class="py-3 text-center border-t transition-colors duration-300"
+          :class="darkMode ? 'bg-gray-900 border-gray-700 text-gray-400' : 'bg-white border-gray-200 text-gray-600'">
+          <p class="text-sm">© 2025 Jan Marco Nicolas. All rights reserved.</p>
+        </footer>
       </div>
-
-      <footer class="flex-shrink-0 py-3 text-center border-t transition-colors duration-300"
-        :class="darkMode ? 'bg-gray-900 border-gray-700 text-gray-400' : 'bg-white border-gray-200 text-gray-600'">
-        <p class="text-sm">© 2025 Jan Marco Nicolas. All rights reserved.</p>
-      </footer>
     </main>
   </div>
 </template>
