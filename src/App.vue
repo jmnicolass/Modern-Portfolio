@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen flex overflow-hidden transition-colors duration-300"
+  <div class="min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden transition-colors duration-300"
     :class="darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'">
     <div v-if="showResumeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
       @click="showResumeModal = false">
@@ -70,7 +70,8 @@
       </div>
     </div>
 
-    <aside class="w-72 p-8 flex flex-col h-screen relative overflow-hidden border-r transition-colors duration-300"
+    <aside
+      class="w-full md:w-72 p-6 md:p-8 flex flex-col h-auto md:h-screen relative overflow-hidden border-b md:border-b-0 md:border-r transition-colors duration-300"
       :class="darkMode ? 'bg-gray-900 text-white border-gray-800' : 'bg-white text-gray-900 border-gray-200'">
 
       <div class="flex-shrink-0 mb-10 relative">
@@ -117,7 +118,7 @@
     </aside>
 
 
-    <main class="flex-1 overflow-hidden flex flex-col transition-colors duration-300 relative"
+    <main class="flex-1 md:overflow-hidden flex flex-col transition-colors duration-300 relative"
       :class="darkMode ? 'bg-gray-800' : 'bg-gray-50'">
       <button @click="darkMode = !darkMode"
         class="absolute top-3 right-6 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
@@ -134,8 +135,8 @@
         </svg>
       </button>
 
-      <div class="flex-1 h-full min-h-0 overflow-y-auto flex flex-col">
-        <div class="grid grid-cols-3 gap-6 items-stretch flex-1 p-8">
+      <div class="flex-1 h-full min-h-0 md:overflow-y-auto flex flex-col">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch flex-1 p-4 md:p-8">
 
           <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
@@ -153,7 +154,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                    }}</p>
+                      }}</p>
                   </div>
                 </div>
               </div>
@@ -172,7 +173,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                      }}</h3>
+                    }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -295,13 +296,13 @@
             </section>
           </div>
 
-          <div class="col-span-3 space-y-3 flex flex-col pb-8">
+          <div class="col-span-1 md:col-span-2 lg:col-span-3 space-y-3 flex flex-col pb-8">
             <section class="flex-1 flex flex-col">
               <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Recent Projects</h2>
               <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
                 :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div v-for="project in projects" :key="project.id" @click="openProjectModal(project)"
                     class="p-4 border hover:shadow-lg transition-all cursor-pointer rounded-lg"
                     :class="darkMode ? 'border-gray-700 hover:border-gray-600 bg-gray-900' : 'border-gray-200 hover:border-gray-300 bg-gray-50'">
