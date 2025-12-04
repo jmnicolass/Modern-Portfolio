@@ -25,35 +25,44 @@
 
     <div v-if="showProjectModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
       @click="showProjectModal = false">
-      <div class="bg-white rounded-lg w-full max-w-2xl flex flex-col" @click.stop>
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h3 class="text-2xl font-semibold text-black">{{ selectedProject?.title }}</h3>
+      <div class="rounded-lg w-full max-w-2xl flex flex-col transition-colors duration-300"
+        :class="darkMode ? 'bg-gray-800' : 'bg-white'" @click.stop>
+        <div class="flex items-center justify-between p-6 border-b transition-colors duration-300"
+          :class="darkMode ? 'border-gray-700' : 'border-gray-200'">
+          <h3 class="text-2xl font-semibold" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
+            selectedProject?.title }}</h3>
           <button @click="showProjectModal = false"
-            class="text-gray-500 hover:text-black text-2xl font-bold w-8 h-8 flex items-center justify-center">
+            class="text-2xl font-bold w-8 h-8 flex items-center justify-center transition-colors"
+            :class="darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'">
             ×
           </button>
         </div>
         <div class="p-6 overflow-y-auto max-h-[70vh]">
           <div class="mb-4">
-            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Description</h4>
-            <p class="text-gray-800 leading-relaxed">{{ selectedProject?.description }}</p>
+            <h4 class="text-sm font-semibold uppercase tracking-wider mb-2"
+              :class="darkMode ? 'text-gray-400' : 'text-gray-700'">Description</h4>
+            <p class="leading-relaxed" :class="darkMode ? 'text-gray-300' : 'text-gray-800'">{{
+              selectedProject?.description }}</p>
           </div>
           <div class="mb-4">
-            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Technologies Used</h4>
+            <h4 class="text-sm font-semibold uppercase tracking-wider mb-2"
+              :class="darkMode ? 'text-gray-400' : 'text-gray-700'">Technologies Used</h4>
             <div class="flex flex-wrap gap-2">
               <span v-for="tech in selectedProject?.technologies" :key="tech"
-                class="px-3 py-1.5 bg-gray-100 text-gray-800 text-sm font-medium border border-gray-300">
+                class="px-3 py-1.5 text-sm font-medium border rounded transition-colors"
+                :class="darkMode ? 'bg-gray-700 text-gray-300 border-gray-600' : 'bg-gray-100 text-gray-800 border-gray-300'">
                 {{ tech }}
               </span>
             </div>
           </div>
           <div class="flex gap-3 mt-6">
             <a v-if="selectedProject?.link && selectedProject.link !== '#'" :href="selectedProject.link" target="_blank"
-              class="flex-1 bg-black text-white py-3 px-6 text-center font-semibold hover:bg-gray-800 transition-all">
+              class="flex-1 py-3 px-6 text-center font-semibold transition-all rounded-lg"
+              :class="darkMode ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-gray-800'">
               View Project
             </a>
-            <button @click="showProjectModal = false"
-              class="flex-1 bg-gray-200 text-black py-3 px-6 font-semibold hover:bg-gray-300 transition-all">
+            <button @click="showProjectModal = false" class="flex-1 py-3 px-6 font-semibold transition-all rounded-lg"
+              :class="darkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-200 text-gray-900 hover:bg-gray-300'">
               Close
             </button>
           </div>
@@ -61,45 +70,52 @@
       </div>
     </div>
 
-    <aside
-      class="w-64 bg-gradient-to-b from-black via-gray-900 to-black text-white p-6 flex flex-col h-screen relative overflow-hidden shadow-2xl">
-      <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-      <div class="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-5 rounded-full blur-3xl -ml-16 -mb-16"></div>
+    <aside class="w-72 p-8 flex flex-col h-screen relative overflow-hidden border-r transition-colors duration-300"
+      :class="darkMode ? 'bg-gray-900 text-white border-gray-800' : 'bg-white text-gray-900 border-gray-200'">
 
-      <div class="flex-shrink-0 mb-8 relative z-10">
-        <div class="w-28 h-28 mx-auto mb-4 relative group">
-          <div class="absolute inset-0 bg-white opacity-20 blur-xl group-hover:opacity-30 transition-opacity"></div>
-          <div class="absolute inset-0 border-2 border-white group-hover:scale-110 transition-transform duration-300">
-          </div>
-          <div
-            class="absolute inset-2 border border-gray-400 flex items-center justify-center bg-black group-hover:bg-gray-900 transition-colors">
-            <span class="text-3xl font-bold tracking-wider">JN</span>
+      <div class="flex-shrink-0 mb-10 relative">
+        <div class="w-32 h-32 mx-auto mb-6 relative group">
+          <div class="w-full h-full rounded-full overflow-hidden ring-2 ring-offset-4 transition-all duration-300"
+            :class="darkMode ? 'ring-gray-700 ring-offset-gray-900' : 'ring-gray-200 ring-offset-white'">
+            <img :src="profileImageUrl" alt="Profile" class="w-full h-full object-cover"
+              style="object-fit: cover; object-position: center;" />
           </div>
         </div>
-        <h1
-          class="text-xl font-bold text-center mb-1 tracking-wide hover:text-gray-300 transition-colors cursor-default">
-          {{ profile.name }}</h1>
-        <p class="text-gray-400 text-xs text-center mb-1">{{ profile.location }}</p>
-        <p class="text-xs font-semibold text-gray-300 text-center uppercase tracking-widest">{{ profile.title }}</p>
 
-        <div class="mt-6 space-y-3">
+        <div class="text-center space-y-2">
+          <h1 class="text-2xl font-light tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
+            {{ profile.name }}
+          </h1>
+          <p class="text-sm font-medium tracking-wide" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">
+            {{ profile.title }}
+          </p>
+          <p class="text-xs" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">
+            {{ profile.location }}
+          </p>
+        </div>
+
+        <div class="mt-8">
           <button @click="openResumeModal"
-            class="w-full bg-white text-black py-2.5 px-4 text-sm font-semibold uppercase tracking-wider hover:bg-gray-200 transition-all border-2 border-white hover:shadow-lg">
+            class="w-full py-3 px-6 text-sm font-medium tracking-wide transition-all duration-300 rounded-lg"
+            :class="darkMode ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-gray-800'">
             View Resume
           </button>
         </div>
       </div>
 
-      <div class="flex-1 overflow-y-auto space-y-6 relative z-10">
-        <div class="bg-white bg-opacity-5 p-4 rounded-lg border border-gray-800 hover:bg-opacity-10 transition-all">
-          <h2 class="text-sm font-bold uppercase tracking-widest mb-3 text-white flex items-center gap-2">
-            <span class="w-1 h-4 bg-white"></span>
+      <div class="flex-1 overflow-y-auto relative">
+        <div class="space-y-4">
+          <h2 class="text-xs font-semibold uppercase tracking-widest"
+            :class="darkMode ? 'text-gray-400' : 'text-gray-500'">
             About
           </h2>
-          <p class="text-gray-300 text-sm leading-relaxed">{{ profile.bio }}</p>
+          <p class="text-sm leading-relaxed" :class="darkMode ? 'text-gray-300' : 'text-gray-600'">
+            {{ profile.bio }}
+          </p>
         </div>
       </div>
     </aside>
+
 
     <main class="flex-1 overflow-hidden flex flex-col transition-colors duration-300 relative"
       :class="darkMode ? 'bg-gray-800' : 'bg-gray-50'">
@@ -118,48 +134,48 @@
         </svg>
       </button>
 
-      <div class="flex-1 h-full p-4 min-h-0 overflow-y-auto">
-        <div class="grid grid-cols-3 gap-4 items-stretch h-full">
+      <div class="flex-1 h-full p-8 min-h-0 overflow-y-auto">
+        <div class="grid grid-cols-3 gap-6 items-stretch h-full">
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Experience</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-gray-50 to-white border-gray-300'">
-                <div class="space-y-4">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+                <div class="space-y-5">
                   <div v-for="exp in experience" :key="exp.id"
-                    class="pb-4 last:border-0 last:pb-0 transition-colors duration-300"
-                    :class="darkMode ? 'border-b border-gray-600' : 'border-b border-gray-200'">
-                    <h3 class="font-medium text-sm mb-1" :class="darkMode ? 'text-white' : 'text-black'">{{
+                    class="pb-5 last:border-0 last:pb-0 transition-colors duration-300"
+                    :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
+                    <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       exp.position }}</h3>
-                    <p class="text-xs mb-1 font-light" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{
+                    <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       exp.company }}
                     </p>
-                    <p class="text-xs font-light" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">{{ exp.duration
-                    }}</p>
+                    <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
+                      }}</p>
                   </div>
                 </div>
               </div>
             </section>
           </div>
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Education</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-white to-gray-100 border-gray-300'">
-                <div class="space-y-4">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+                <div class="space-y-5">
                   <div v-for="edu in education" :key="edu.id"
-                    class="pb-4 last:border-0 last:pb-0 transition-colors duration-300"
-                    :class="darkMode ? 'border-b border-gray-600' : 'border-b border-gray-200'">
-                    <h3 class="font-medium text-sm mb-1" :class="darkMode ? 'text-white' : 'text-black'">{{
+                    class="pb-5 last:border-0 last:pb-0 transition-colors duration-300"
+                    :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
+                    <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                      }}</h3>
-                    <p class="text-xs mb-1 font-light" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{
+                    }}</h3>
+                    <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
-                    <p class="text-xs font-light" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">{{ edu.year }}
+                    <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
                     </p>
                   </div>
                 </div>
@@ -167,20 +183,20 @@
             </section>
           </div>
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Tech Stack</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-gray-100 to-white border-gray-300'">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
                 <div class="space-y-4">
                   <div v-for="skillGroup in skills" :key="skillGroup.category">
-                    <h3 class="font-medium text-xs mb-2 uppercase tracking-wider"
-                      :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{ skillGroup.category }}</h3>
-                    <div class="flex flex-wrap gap-1.5">
+                    <h3 class="font-medium text-xs mb-2.5 uppercase tracking-wider"
+                      :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{ skillGroup.category }}</h3>
+                    <div class="flex flex-wrap gap-2">
                       <span v-for="skill in skillGroup.items" :key="skill"
-                        class="px-2.5 py-1 border text-xs font-normal transition-colors"
-                        :class="darkMode ? 'border-gray-400 text-gray-300 hover:bg-gray-600' : 'border-black text-black hover:bg-black hover:text-white'">
+                        class="px-3 py-1.5 border text-xs font-normal transition-all rounded"
+                        :class="darkMode ? 'border-gray-600 hover:border-gray-600 hover:bg-gray-900' : 'border-gray-300 text-gray-700 hover:bg-gray-100'">
                         {{ skill }}
                       </span>
                     </div>
@@ -190,21 +206,21 @@
             </section>
           </div>
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Achievements</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-white to-gray-50 border-gray-300'">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
                 <div class="grid grid-cols-1 gap-3">
                   <div v-for="achievement in achievements" :key="achievement.id"
-                    class="text-left p-3 border hover:shadow-md transition-all"
-                    :class="darkMode ? 'border-gray-600 hover:border-gray-400 bg-gray-800' : 'border-gray-200 hover:border-black bg-white'">
-                    <h3 class="font-medium text-sm mb-1" :class="darkMode ? 'text-white' : 'text-black'">{{
+                    class="text-left p-4 border hover:shadow-md transition-all rounded-lg"
+                    :class="darkMode ? 'border-gray-700 hover:border-gray-600 bg-gray-900' : 'border-gray-200 hover:border-gray-300 bg-gray-50'">
+                    <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       achievement.title }}</h3>
-                    <p class="text-xs mb-1 font-light" :class="darkMode ? 'text-gray-300' : 'text-gray-600'">{{
+                    <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       achievement.organization }}</p>
-                    <p class="text-xs font-light" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">{{
+                    <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{
                       achievement.year }}</p>
                   </div>
                 </div>
@@ -212,30 +228,30 @@
             </section>
           </div>
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Hobbies</h2>
-              <div class="p-4 shadow-lg border flex-1 transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-gray-50 to-white border-gray-300'">
-                <h3 class="text-base font-medium mb-2 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <div class="p-6 border flex-1 transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+                <h3 class="text-sm font-medium mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                   {{ hobbies.title }}</h3>
-                <p class="text-sm leading-relaxed font-light" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">
+                <p class="text-sm leading-relaxed font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">
                   {{ hobbies.description }}</p>
               </div>
             </section>
           </div>
 
-          <div class="col-span-1 space-y-2 flex flex-col">
+          <div class="col-span-1 space-y-3 flex flex-col">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Contact</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-white to-gray-50 border-gray-300'">
-                <div class="space-y-2.5">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+                <div class="space-y-3">
                   <a v-for="link in socialLinks" :key="link.id" :href="link.url" target="_blank"
-                    class="flex items-center gap-2.5 text-sm font-normal p-2.5 rounded-lg border transition-all"
-                    :class="darkMode ? 'border-gray-600 text-gray-300 hover:border-white hover:bg-gray-800' : 'border-gray-300 text-gray-700 hover:border-black hover:bg-gray-50'">
+                    class="flex items-center gap-3 text-sm font-normal p-3 rounded-lg border transition-all"
+                    :class="darkMode ? 'border-gray-700 text-gray-300 hover:border-gray-600 hover:bg-gray-900' : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'">
                     <span class="w-4 h-4 flex-shrink-0">
                       <svg v-if="link.icon === 'linkedin'" viewBox="0 0 48 48" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
@@ -279,29 +295,29 @@
             </section>
           </div>
 
-          <div class="col-span-3 space-y-2 flex flex-col">
+          <div class="col-span-3 space-y-3 flex flex-col pb-8">
             <section class="flex-1 flex flex-col">
-              <h2 class="text-2xl font-light mb-3 tracking-tight" :class="darkMode ? 'text-white' : 'text-black'">
+              <h2 class="text-xl font-light mb-4 tracking-tight" :class="darkMode ? 'text-white' : 'text-gray-900'">
                 Recent Projects</h2>
-              <div class="p-4 shadow-lg border flex-1 overflow-y-auto transition-colors duration-300"
-                :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-br from-white to-gray-50 border-gray-200'">
-                <div class="grid grid-cols-2 gap-3">
+              <div class="p-6 border flex-1 overflow-y-auto transition-colors duration-300 rounded-lg"
+                :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+                <div class="grid grid-cols-2 gap-4">
                   <div v-for="project in projects" :key="project.id" @click="openProjectModal(project)"
-                    class="p-3 border hover:shadow-lg transition-all cursor-pointer"
-                    :class="darkMode ? 'border-gray-600 hover:border-gray-400 bg-gray-800' : 'border-gray-200 hover:border-black bg-white'">
-                    <h3 class="font-medium text-sm mb-1" :class="darkMode ? 'text-white' : 'text-black'">{{
+                    class="p-4 border hover:shadow-lg transition-all cursor-pointer rounded-lg"
+                    :class="darkMode ? 'border-gray-700 hover:border-gray-600 bg-gray-900' : 'border-gray-200 hover:border-gray-300 bg-gray-50'">
+                    <h3 class="font-medium text-sm mb-2" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       project.title }}</h3>
-                    <p class="text-sm mb-2 line-clamp-2 font-light"
-                      :class="darkMode ? 'text-gray-300' : 'text-gray-600'">{{
+                    <p class="text-sm mb-3 line-clamp-2 font-normal"
+                      :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                         project.description }}</p>
-                    <div class="flex flex-wrap gap-1.5 mb-2">
-                      <span v-for="tech in project.technologies" :key="tech" class="text-xs px-2 py-0.5"
-                        :class="darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                      <span v-for="tech in project.technologies" :key="tech" class="text-xs px-2.5 py-1 rounded border"
+                        :class="darkMode ? 'bg-gray-800 text-gray-300 border-gray-700' : 'bg-white text-gray-700 border-gray-200'">
                         {{ tech }}
                       </span>
                     </div>
-                    <a :href="project.link" target="_blank" class="text-sm font-normal underline hover:no-underline"
-                      :class="darkMode ? 'text-white' : 'text-black'" @click.stop>View Project</a>
+                    <a :href="project.link" target="_blank" class="text-sm font-medium underline hover:no-underline"
+                      :class="darkMode ? 'text-white' : 'text-gray-900'" @click.stop>View Project</a>
                   </div>
                 </div>
               </div>
@@ -310,9 +326,9 @@
         </div>
       </div>
 
-      <footer class="flex-shrink-0 py-2 text-center border-t transition-colors duration-300"
+      <footer class="flex-shrink-0 py-3 text-center border-t transition-colors duration-300"
         :class="darkMode ? 'bg-gray-900 border-gray-700 text-gray-400' : 'bg-white border-gray-200 text-gray-600'">
-        <p class="text-xs">© 2025 Jan Marco Nicolas. All rights reserved.</p>
+        <p class="text-sm">© 2025 Jan Marco Nicolas. All rights reserved.</p>
       </footer>
     </main>
   </div>
@@ -320,12 +336,14 @@
 
 <script setup>
 import { ref } from 'vue';
+import profileImage from './assets/profile/Profile-optimized.jpg';
 
 const darkMode = ref(false);
 const showResumeModal = ref(false);
 const showProjectModal = ref(false);
 const selectedProject = ref(null);
 const resumePdfUrl = ref('/resume/MARCO-NICOLAS_CV.pdf');
+const profileImageUrl = profileImage;
 
 const profile = ref({
   name: 'Jan Marco Nicolas',
@@ -368,7 +386,7 @@ const achievements = ref([
 
 const hobbies = ref({
   title: 'Life Outside Code',
-  description: 'When I\'m not coding, I focus on physical and mental well-being through **weightlifting** and **hiking**. I also enjoy **playing FPS games** and diving into new worlds by **reading fantasy and sci-fi books**.'
+  description: 'When I\'m not coding, I enjoy playing FPS games on mobile and PC. I also enjoy watching movies and series.'
 });
 
 const skills = ref([
@@ -383,7 +401,7 @@ const projects = ref([
     id: 1,
     title: 'Travel & Tours',
     description: 'It is a capstone project for a travel and tours company to automate their booking system, create packages, offer seasonal promotions, and track their income and bookings.',
-    technologies: ['Vue.js', 'Laravel', 'MySQL'],
+    technologies: ['Vue.js', 'Laravel', 'MySQL', 'Tailwind CSS'],
     link: '#'
   }
 ]);
