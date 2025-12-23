@@ -1,6 +1,8 @@
 <template>
   <div class="min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden transition-colors duration-300"
     :class="darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'">
+    <SeasonalEffects :darkMode="darkMode" />
+
     <div v-if="showResumeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
       @click="showResumeModal = false">
       <div class="bg-white rounded-lg w-full max-w-5xl h-[90vh] flex flex-col" @click.stop>
@@ -154,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                      }}</p>
+                    }}</p>
                   </div>
                 </div>
               </div>
@@ -173,7 +175,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                    }}</h3>
+                      }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -337,6 +339,7 @@
 <script setup>
 import { ref } from 'vue';
 import profileImage from './assets/profile/Profile-optimized.jpg';
+import SeasonalEffects from './components/SeasonalEffects.vue';
 
 const darkMode = ref(false);
 const showResumeModal = ref(false);
