@@ -156,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                    }}</p>
+                      }}</p>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                      }}</h3>
+                    }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -345,7 +345,7 @@ const darkMode = ref(false);
 const showResumeModal = ref(false);
 const showProjectModal = ref(false);
 const selectedProject = ref(null);
-const resumePdfUrl = ref('/resume/MARCO-NICOLAS_CV.pdf');
+const resumePdfUrl = ref('/resume/Jan-Marco-Nicolas_Resume.pdf');
 const profileImageUrl = profileImage;
 
 const profile = ref({
