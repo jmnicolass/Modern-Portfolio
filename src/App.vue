@@ -156,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                      }}</p>
+                    }}</p>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                      }}</h3>
+                    }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -351,7 +351,7 @@ const profileImageUrl = profileImage;
 const profile = ref({
   name: 'Jan Marco Nicolas',
   location: 'Biñan City, Laguna, Philippines',
-  title: 'Associate Software Engineer',
+  title: 'Junior Software Engineer',
   bio: 'I’m a Junior Software Engineer driven by curiosity and a desire to learn. I enjoy tackling new challenges and turning them into practical, user-focused solutions. Whether I’m helping build intuitive interfaces or learning how to optimize performance, I approach each project with a problem-solving mindset and an eagerness to grow. I’m excited to collaborate and help turn ideas into digital experiences that exceed expectations.'
 });
 
