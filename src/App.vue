@@ -156,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                    }}</p>
+                      }}</p>
                   </div>
                 </div>
               </div>
