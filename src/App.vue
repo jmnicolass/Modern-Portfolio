@@ -352,7 +352,7 @@ const profile = ref({
   name: 'Jan Marco Nicolas',
   location: 'Biñan City, Laguna, Philippines',
   title: 'Associate Software Engineer',
-  bio: 'I’m an Associate Software Engineer driven by curiosity and a desire to learn. I enjoy tackling new challenges and turning them into practical, user-focused solutions. Whether I’m helping build intuitive interfaces or learning how to optimize performance, I approach each project with a problem-solving mindset and an eagerness to grow. I’m excited to collaborate and help turn ideas into digital experiences that exceed expectations.'
+  bio: 'I’m a Junior Software Engineer driven by curiosity and a desire to learn. I enjoy tackling new challenges and turning them into practical, user-focused solutions. Whether I’m helping build intuitive interfaces or learning how to optimize performance, I approach each project with a problem-solving mindset and an eagerness to grow. I’m excited to collaborate and help turn ideas into digital experiences that exceed expectations.'
 });
 
 const openResumeModal = () => {
