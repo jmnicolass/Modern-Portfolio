@@ -306,7 +306,7 @@
                 :class="darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div v-for="project in projects" :key="project.id" @click="openProjectModal(project)"
-                    class="p-4 border hover:shadow-lg transition-all cursor-pointer rounded-lg"
+                    class="p-4 border hover:shadow-lg transition-all cursor-pointer rounded-lg flex flex-col h-full"
                     :class="darkMode ? 'border-gray-700 hover:border-gray-600 bg-gray-900' : 'border-gray-200 hover:border-gray-300 bg-gray-50'">
                     <h3 class="font-medium text-sm mb-2" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       project.title }}</h3>
@@ -319,7 +319,8 @@
                         {{ tech }}
                       </span>
                     </div>
-                    <a :href="project.link" target="_blank" class="text-sm font-medium underline hover:no-underline"
+                    <a :href="project.link" target="_blank"
+                      class="text-sm font-medium underline hover:no-underline mt-auto"
                       :class="darkMode ? 'text-white' : 'text-gray-900'" @click.stop>View Project</a>
                   </div>
                 </div>
@@ -405,6 +406,13 @@ const projects = ref([
     title: 'Travel & Tours',
     description: 'This is a freelance capstone project for a travel and tours company, aimed at automating their booking system, creating customizable travel packages, offering seasonal promotions, and tracking both income and overall bookings.',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Tailwind CSS'],
+    link: 'https://jetravelandtours.com'
+  },
+  {
+    id: 2,
+    title: 'JMOS',
+    description: 'A full-stack e-commerce application designed to deliver a high-end, "industrial executive" shopping experience. Built with a focus on performance and modern aesthetics, the platform features a custom-built Laravel API backend and a dynamic React frontend.',
+    technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Shadcn UI (Radix Primitives)', 'Laravel 11 (PHP)', 'MySQL', 'Sanctum Authentication', 'RESTful API', 'Git', 'Composer', 'NPM', 'Axios', 'Postman'],
     link: 'https://jetravelandtours.com'
   }
 ]);
