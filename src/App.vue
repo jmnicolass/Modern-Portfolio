@@ -156,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                      }}</p>
+                    }}</p>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                      }}</h3>
+                    }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -383,9 +383,10 @@ const experience = ref([
 ]);
 
 const achievements = ref([
-  { id: 1, title: 'Titanium Skills Award Q1', organization: 'Qstrike Innovations Phils., OPC', year: '2025' },
-  { id: 2, title: 'Best in Capstone', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024' },
-  { id: 3, title: 'Cum Laude', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024' }
+  { id: 1, title: 'Titanium Skills Award Q4', organization: 'Qstrike Innovations Phils., OPC', year: 'December 2025' },
+  { id: 2, title: 'Titanium Skills Award Q1', organization: 'Qstrike Innovations Phils., OPC', year: 'April 2025' },
+  { id: 3, title: 'Best in Capstone', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024' },
+  { id: 4, title: 'Cum Laude', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024' }
 ]);
 
 const hobbies = ref({
