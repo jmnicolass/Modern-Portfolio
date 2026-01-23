@@ -156,7 +156,7 @@
                       exp.company }}
                     </p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ exp.duration
-                    }}</p>
+                      }}</p>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@
                     :class="darkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'">
                     <h3 class="font-medium text-sm mb-1.5" :class="darkMode ? 'text-white' : 'text-gray-900'">{{
                       edu.degree
-                    }}</h3>
+                      }}</h3>
                     <p class="text-xs mb-1 font-normal" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">{{
                       edu.school }}</p>
                     <p class="text-xs font-normal" :class="darkMode ? 'text-gray-500' : 'text-gray-500'">{{ edu.year }}
@@ -413,7 +413,7 @@ const projects = ref([
     title: 'JMOS',
     description: 'A full-stack e-commerce application designed to deliver a high-end, "industrial executive" shopping experience. Built with a focus on performance and modern aesthetics, the platform features a custom-built Laravel API backend and a dynamic React frontend.',
     technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Shadcn UI (Radix Primitives)', 'Laravel 11 (PHP)', 'MySQL', 'Sanctum Authentication', 'RESTful API', 'Git', 'Composer', 'NPM', 'Axios', 'Postman'],
-    link: 'https://jetravelandtours.com'
+    link: 'https://jmos.vercel.app/'
   }
 ]);
 </script>
