@@ -64,6 +64,40 @@
                 </p>
               </div>
 
+              <div v-if="selectedProject?.images" class="space-y-4">
+                <h4 class="text-xs uppercase tracking-[0.3em] opacity-40">Project Gallery</h4>
+                <div class="relative group/gallery">
+                  <div ref="galleryContainer" class="flex gap-4 overflow-x-auto pb-4 snap-x -mx-8 px-8 no-scrollbar">
+                    <div v-for="(img, index) in selectedProject.images" :key="index"
+                      class="flex-shrink-0 w-72 aspect-video rounded-2xl overflow-hidden border snap-center group/img cursor-zoom-in"
+                      :class="darkMode ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'"
+                      @click="openFullscreenImage(img)">
+                      <img :src="img"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
+                        alt="Project preview" />
+                    </div>
+                  </div>
+
+                  <button @click="scrollLeft"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center shadow-2xl z-20 hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-all hover:scale-110 active:scale-95 translate-x-1"
+                    :class="darkMode ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  <button @click="scrollRight"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center shadow-2xl z-20 hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-all hover:scale-110 active:scale-95 -translate-x-1"
+                    :class="darkMode ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
               <div>
                 <h4 class="text-xs uppercase tracking-[0.3em] opacity-40 mb-3">Tech Stack</h4>
                 <div class="flex flex-wrap gap-2">
@@ -74,19 +108,19 @@
                   </span>
                 </div>
               </div>
+            </div>
 
-              <div class="flex gap-3 pt-4">
-                <a v-if="selectedProject?.link && selectedProject.link !== '#'" :href="selectedProject.link"
-                  target="_blank"
-                  class="flex-1 py-3 px-6 text-center font-medium rounded-full transition-all hover:scale-105"
-                  :class="darkMode ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'">
-                  Visit Project →
-                </a>
-                <button @click="showProjectModal = false" class="px-6 py-3 font-medium rounded-full transition-all"
-                  :class="darkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'">
-                  Close
-                </button>
-              </div>
+            <div class="flex gap-3 pt-4">
+              <a v-if="selectedProject?.link && selectedProject.link !== '#'" :href="selectedProject.link"
+                target="_blank"
+                class="flex-1 py-3 px-6 text-center font-medium rounded-full transition-all hover:scale-105"
+                :class="darkMode ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'">
+                Visit Project →
+              </a>
+              <button @click="showProjectModal = false" class="px-6 py-3 font-medium rounded-full transition-all"
+                :class="darkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'">
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -115,6 +149,21 @@
             <img :src="selectedCertificate?.image" :alt="selectedCertificate?.title"
               class="w-full h-auto rounded-2xl shadow-lg" />
           </div>
+        </div>
+      </div>
+    </Transition>
+
+    <Transition name="modal">
+      <div v-if="showFullscreenModal"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-12 backdrop-blur-2xl bg-black/90"
+        @click="showFullscreenModal = false">
+        <button @click="showFullscreenModal = false"
+          class="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-all hover:rotate-90 z-10 text-white">
+          <span class="text-3xl font-light">×</span>
+        </button>
+        <div class="w-full h-full flex items-center justify-center" @click.stop>
+          <img :src="selectedFullscreenImage"
+            class="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-scale-in" />
         </div>
       </div>
     </Transition>
@@ -390,8 +439,11 @@ const showProjectModal = ref(false);
 const showCertificateModal = ref(false);
 const selectedProject = ref(null);
 const selectedCertificate = ref(null);
+const showFullscreenModal = ref(false);
+const selectedFullscreenImage = ref('');
 const resumePdfUrl = ref('/resume/Jan-Marco-Nicolas_Resume.pdf');
 const profileImageUrl = profileImage;
+const galleryContainer = ref(null);
 
 const profile = ref({
   name: 'Jan Marco Nicolas',
@@ -412,6 +464,25 @@ const openProjectModal = (project) => {
 const openCertificateModal = (achievement) => {
   selectedCertificate.value = achievement;
   showCertificateModal.value = true;
+};
+
+const openFullscreenImage = (img) => {
+  selectedFullscreenImage.value = img;
+  showFullscreenModal.value = true;
+};
+
+const scrollRight = () => {
+  if (galleryContainer.value) {
+    const itemWidth = 288 + 16;
+    galleryContainer.value.scrollBy({ left: itemWidth, behavior: 'smooth' });
+  }
+};
+
+const scrollLeft = () => {
+  if (galleryContainer.value) {
+    const itemWidth = 288 + 16;
+    galleryContainer.value.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+  }
 };
 
 const socialLinks = ref([
@@ -455,7 +526,7 @@ const projects = ref([
     id: 1,
     title: 'Travel & Tours',
     description: 'This is a freelance capstone project for a travel and tours company, aimed at automating their booking system, creating customizable travel packages, offering seasonal promotions, and tracking both income and overall bookings.',
-    technologies: ['Vue.js', 'Laravel', 'MySQL', 'Tailwind CSS'],
+    technologies: ['Vue JS', 'Laravel', 'MySQL', 'Tailwind CSS'],
     link: 'https://jetravelandtours.com'
   },
   {
@@ -467,9 +538,25 @@ const projects = ref([
   },
   {
     id: 3,
+    title: 'WealthWarp',
+    description: 'WealthWarp is a modern, premium personal finance management application designed to help users take control of their financial health. It features a sleek interface with "glassmorphic" design elements and smooth animations to provide a high-end user experience.',
+    technologies: ['Vue JS', 'Vite', 'Pinia', 'Tailwind CSS', 'Axios', 'Laravel 12 (PHP)', 'Laravel Sanctum', 'MySQL', 'RESTful API'],
+    images: [
+      '/project-wealthwrap/1.png',
+      '/project-wealthwrap/2.png',
+      '/project-wealthwrap/3.png',
+      '/project-wealthwrap/4.png',
+      '/project-wealthwrap/5.png',
+      '/project-wealthwrap/6.png',
+      '/project-wealthwrap/7.png',
+      '/project-wealthwrap/8.png'
+    ]
+  },
+  {
+    id: 4,
     title: 'Modern Portfolio',
     description: 'A premium, modern portfolio website featuring a dynamic Bento Grid layout, interactive animations, seasonal effects, and a beautiful gradient background with floating particles. Built with Vue.js 3 and Tailwind CSS, showcasing advanced front-end development skills.',
-    technologies: ['Vue.js 3', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
+    technologies: ['Vue JS', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
     link: 'https://jmncls.vercel.app/'
   }
 ]);
@@ -507,5 +594,15 @@ const projects = ref([
 /* Minimalist dark mode toggle button */
 button:focus {
   outline: none;
+}
+
+/* Hide scrollbar for gallery */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
