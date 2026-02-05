@@ -195,18 +195,10 @@
               {{ profile.title }}
             </p>
           </div>
-
           <p class="text-xs opacity-40">
             {{ profile.location }}
           </p>
         </div>
-
-        <div class="hidden md:block max-w-xs">
-          <p class="text-sm leading-relaxed opacity-70" :class="darkMode ? 'text-gray-300' : 'text-gray-600'">
-            {{ profile.bio }}
-          </p>
-        </div>
-
         <div class="flex gap-5">
           <a v-for="link in socialLinks" :key="link.id" :href="link.url" target="_blank"
             class="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:-translate-y-1"
@@ -234,15 +226,8 @@
             </span>
           </a>
         </div>
-
-        <button @click="openResumeModal"
-          class="px-6 py-3 rounded-full text-xs uppercase tracking-[0.3em] font-semibold transition-all hover:scale-105"
-          :class="darkMode ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'">
-          View Resume
-        </button>
       </div>
     </aside>
-
 
     <main class="flex-1 md:overflow-hidden flex flex-col transition-colors duration-300 relative"
       :class="darkMode ? 'bg-transparent' : 'bg-gray-50'">
@@ -332,7 +317,7 @@
                 <span class="text-2xl opacity-0 group-hover/card:opacity-100 transition-opacity">→</span>
               </div>
               <h3 class="text-xl font-medium mb-3" :class="darkMode ? 'text-white' : 'text-gray-900'">{{ project.title
-              }}</h3>
+                }}</h3>
               <p class="text-sm opacity-70 mb-4 line-clamp-2" :class="darkMode ? 'text-gray-300' : 'text-gray-600'">
                 {{ project.description }}
               </p>
@@ -400,7 +385,7 @@
               <div class="space-y-4">
                 <div v-for="edu in education" :key="edu.id">
                   <h3 class="font-medium text-sm mb-1" :class="darkMode ? 'text-white' : 'text-gray-900'">{{ edu.degree
-                  }}</h3>
+                    }}</h3>
                   <p class="text-xs opacity-60 mb-1">{{ edu.school }}</p>
                   <p class="text-xs opacity-40">{{ edu.year }}</p>
                 </div>
@@ -410,7 +395,7 @@
             <div class="md:col-span-4 p-6 rounded-3xl transition-all duration-500"
               :class="darkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-gradient-to-br from-green-50 to-teal-50 hover:shadow-xl'">
               <span class="text-xs uppercase tracking-[0.3em] font-semibold opacity-40 mb-4 block">{{ hobbies.title
-              }}</span>
+                }}</span>
               <p class="text-sm leading-relaxed opacity-80" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">
                 {{ hobbies.description }}
               </p>
