@@ -74,7 +74,7 @@
                   </div>
                   <button @click="scrollLeft"
                     class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center shadow-2xl z-20 hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-all hover:scale-110 active:scale-95 translate-x-1"
-                    :class="darkMode ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
+                    :class="'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                       stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
@@ -82,7 +82,7 @@
                   </button>
                   <button @click="scrollRight"
                     class="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center shadow-2xl z-20 hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-all hover:scale-110 active:scale-95 -translate-x-1"
-                    :class="darkMode ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
+                    :class="'bg-white/80 backdrop-blur-md border border-gray-200 text-gray-900 hover:bg-white'">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                       stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
@@ -541,7 +541,10 @@ const projects = ref([
     title: 'Modern Portfolio',
     description: 'A premium, modern portfolio website featuring a dynamic Bento Grid layout, interactive animations, seasonal effects, and a beautiful gradient background with floating particles. Built with Vue.js 3 and Tailwind CSS, showcasing advanced front-end development skills.',
     technologies: ['Vue JS', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
-    link: 'https://jmncls.vercel.app/'
+    link: 'https://jmncls.vercel.app/',
+    images: [
+      '/project-portfolio/1.png'
+    ]
   }
 ]);
 </script>
