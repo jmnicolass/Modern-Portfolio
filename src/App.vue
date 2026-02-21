@@ -411,7 +411,7 @@ import profileImage from './assets/profile/Profile-optimized.jpg';
 import SeasonalEffects from './components/SeasonalEffects.vue';
 import GradientBg from './components/GradientBg.vue';
 
-const darkMode = ref(true);
+const darkMode = ref(false);
 const showResumeModal = ref(false);
 const showProjectModal = ref(false);
 const showCertificateModal = ref(false);
@@ -419,7 +419,7 @@ const selectedProject = ref(null);
 const selectedCertificate = ref(null);
 const showFullscreenModal = ref(false);
 const selectedFullscreenImage = ref('');
-const resumePdfUrl = ref('/resume/Jan-Marco-Nicolas_Resume.pdf');
+const resumePdfUrl = ref('/resume/JMTN-Resume.pdf');
 const profileImageUrl = profileImage;
 const galleryContainer = ref(null);
 
@@ -427,7 +427,7 @@ const profile = ref({
   name: 'Jan Marco Nicolas',
   location: 'Biñan City, Laguna, Philippines',
   title: 'Software Engineer',
-  bio: 'I’m a Software Engineer driven by curiosity and a desire to learn. I enjoy tackling new challenges and turning them into practical, user-focused solutions. Whether I’m helping build intuitive interfaces or learning how to optimize performance, I approach each project with a problem-solving mindset and an eagerness to grow. I’m excited to collaborate and help turn ideas into digital experiences that exceed expectations.'
+  bio: 'Highly motivated and detail-oriented Software Engineer with a passion for crafting intuitive and responsive web interfaces. Eager to leverage expertise in Vue.js, React, and modern front-end technologies to develop innovative web applications and enhance user experiences. A quick learner and problem-solver, adept at collaborating with cross-functional teams to deliver high-quality, user-focused solutions.'
 });
 
 const openResumeModal = () => {
