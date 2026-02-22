@@ -291,7 +291,7 @@
                 <div class="space-y-6">
                   <div v-for="edu in education" :key="edu.id">
                     <h3 class="font-bold text-sm mb-1" :class="darkMode ? 'text-white' : 'text-gray-900'">{{ edu.degree
-                    }}</h3>
+                      }}</h3>
                     <p class="text-xs opacity-60 mb-1 font-medium">{{ edu.school }}</p>
                     <p class="text-[10px] opacity-40 tracking-wider">{{ edu.year }}</p>
                   </div>
@@ -525,7 +525,7 @@ const projects = ref([
     title: 'WealthWarp',
     description: 'WealthWarp is a modern, premium personal finance management application designed to help users take control of their financial health. It features a sleek interface with "glassmorphic" design elements and smooth animations to provide a high-end user experience.',
     technologies: ['Vue JS', 'Vite', 'Pinia', 'Tailwind CSS', 'Axios', 'Laravel 12 (PHP)', 'Laravel Sanctum', 'MySQL', 'RESTful API'],
-    link: 'https://wealth-warp-tracker.vercel.app/',
+    link: 'https://wealthwarp-tracker.vercel.app',
     images: [
       '/project-wealthwrap/1.png',
       '/project-wealthwrap/2.png',
