@@ -138,6 +138,16 @@
           <div class="p-8">
             <img :src="selectedCertificate?.image" :alt="selectedCertificate?.title"
               class="w-full h-auto rounded-2xl shadow-lg" />
+            <a v-if="selectedCertificate?.verifyLink" :href="selectedCertificate?.verifyLink" target="_blank"
+              rel="noopener noreferrer"
+              class="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all hover:-translate-y-1 active:scale-95"
+              :class="darkMode ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-black shadow-lg shadow-black/10'">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Verify Credential
+            </a>
           </div>
         </div>
       </div>
@@ -406,7 +416,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import profileImage from './assets/profile/Profile-optimized.jpg';
 import SeasonalEffects from './components/SeasonalEffects.vue';
 import GradientBg from './components/GradientBg.vue';
@@ -485,7 +495,10 @@ const achievements = ref([
   { id: 2, title: 'Titanium Skills Award Q4', organization: 'Qstrike Innovations Phils., OPC', year: 'December 2025', image: '/certificates/Titanium-Skils-Award-Q4.jpg' },
   { id: 3, title: 'Titanium Skills Award Q1', organization: 'Qstrike Innovations Phils., OPC', year: 'April 2025', image: '/certificates/Titanium-Skils-Award-Q1.jpg' },
   { id: 4, title: 'Best in Capstone', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024', image: null },
-  { id: 5, title: 'Cum Laude', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024', image: null }
+  { id: 5, title: 'Cum Laude', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024', image: null },
+  { id: 6, title: 'Claude 101', organization: 'Anthropic', year: '2026', image: '/certificates/claude-101-certificate.png', verifyLink: 'https://verify.skilljar.com/c/m24jgs9hi7vu' },
+  { id: 7, title: 'Claude Code 101', organization: 'Anthropic', year: '2026', image: '/certificates/claude-code-101-certificate.png', verifyLink: 'https://verify.skilljar.com/c/duyoposq4uxo' },
+  { id: 8, title: 'Claude Code in Action', organization: 'Anthropic', year: '2026', image: '/certificates/claude-code-in-action-certificate.png', verifyLink: 'https://verify.skilljar.com/c/bwhcpee79543' }
 ]);
 
 const hobbies = ref({
