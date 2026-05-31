@@ -16,6 +16,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@fontsource/geist-mono": "^5.2.8",
     "vue": "^3.5.25",
     "vue3-particles": "^2.12.0"
   },
