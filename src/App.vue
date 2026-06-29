@@ -335,6 +335,19 @@
         <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">© 2026 Jan Marco Nicolas</p>
       </footer>
     </div>
+
+    <ChatWidget
+      :profile="profile"
+      :skills="skills"
+      :projects="projects"
+      :experience="experience"
+      :education="education"
+      :awards="awards"
+      :certifications="certifications"
+      :hobbies="hobbies"
+      :social-links="socialLinks"
+      :email="emailLink.url"
+    />
   </div>
 </template>
 
@@ -348,6 +361,7 @@ import ProjectCard from './components/ProjectCard.vue';
 import TimelineItem from './components/TimelineItem.vue';
 import StatCard from './components/StatCard.vue';
 import TerminalCard from './components/TerminalCard.vue';
+import ChatWidget from './components/ChatWidget.vue';
 import profileImageUrl from './assets/profile/Profile-sharp.png';
 
 // Dark-first: stored choice wins; else honor OS; default to dark.
