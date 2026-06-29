@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Open Runde"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
         mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
@@ -20,6 +20,9 @@ export default {
         'muted-foreground': 'rgb(var(--muted-foreground) / <alpha-value>)',
         'accent-blue': 'rgb(var(--accent-blue) / <alpha-value>)',
         'accent-purple': 'rgb(var(--accent-purple) / <alpha-value>)',
+        'accent-cyan': 'rgb(var(--accent-cyan) / <alpha-value>)',
+        'accent-mint': 'rgb(var(--accent-mint) / <alpha-value>)',
+        'accent-amber': 'rgb(var(--accent-amber) / <alpha-value>)',
       },
       borderColor: {
         DEFAULT: 'rgb(var(--border) / <alpha-value>)',
@@ -28,7 +31,8 @@ export default {
         card: '0 1px 2px rgba(0, 0, 0, 0.08)',
       },
       borderRadius: {
-        card: '12px',
+        card: '14px',
+        tag: '10px',
       },
     },
   },
