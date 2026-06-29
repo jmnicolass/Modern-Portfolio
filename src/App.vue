@@ -511,7 +511,7 @@ const projects = ref([
   {
     id: 4,
     title: 'Modern Portfolio',
-    description: 'A premium, modern portfolio website featuring a dynamic Bento Grid layout, interactive animations, seasonal effects, and a beautiful gradient background with floating particles. Built with Vue.js 3 and Tailwind CSS, showcasing advanced front-end development skills.',
+    description: 'A premium, developer-first portfolio for Jan Marco Nicolas, Software Engineer. Inspired by the clean, minimal aesthetic of OpenAI Codex, it features a dark-first theme with a light/dark toggle, a monospace typographic system, and a subtle terminal-style interface. The site showcases his featured projects, work experience, tech stack, education, awards, and certifications — with an interactive project gallery, embedded résumé viewer, and verifiable credentials. Built with Vue 3 and Tailwind CSS, using reusable components, scroll-reveal animations, and an accessible, responsive design.',
     technologies: ['Vue JS', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
     link: 'https://jmncls.vercel.app/',
     images: [
