@@ -515,7 +515,7 @@ const projects = ref([
     technologies: ['Vue JS', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
     link: 'https://jmncls.vercel.app/',
     images: [
-      '/project-portfolio/1.png'
+      '/project-portfolio/Portfolio.png'
     ]
   }
 ]);
