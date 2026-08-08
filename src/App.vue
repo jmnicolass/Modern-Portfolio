@@ -465,7 +465,8 @@ const achievements = ref([
   { id: 5, title: 'Cum Laude', organization: 'Polytechnic University of the Philippines - Biñan Campus', year: '2024', image: null },
   { id: 6, title: 'Claude 101', organization: 'Anthropic', year: '2026', image: '/certificates/claude-101-certificate.png', verifyLink: 'https://verify.skilljar.com/c/m24jgs9hi7vu' },
   { id: 7, title: 'Claude Code 101', organization: 'Anthropic', year: '2026', image: '/certificates/claude-code-101-certificate.png', verifyLink: 'https://verify.skilljar.com/c/duyoposq4uxo' },
-  { id: 8, title: 'Claude Code in Action', organization: 'Anthropic', year: '2026', image: '/certificates/claude-code-in-action-certificate.png', verifyLink: 'https://verify.skilljar.com/c/bwhcpee79543' }
+  { id: 8, title: 'Claude Code in Action', organization: 'Anthropic', year: '2026', image: '/certificates/claude-code-in-action-certificate.png', verifyLink: 'https://verify.skilljar.com/c/bwhcpee79543' },
+  { id: 9, title: 'AI Foundations', organization: 'OpenAI', year: '2026', image: '/certificates/ai-foundations.png', verifyLink: 'https://academy.openai.com/public/certificate/ktijflw7fd' }
 ]);
 
 const awards = computed(() => achievements.value.filter((a) => !a.verifyLink));
