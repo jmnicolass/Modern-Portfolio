@@ -8,31 +8,20 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+        sans: ['ui-sans-serif', 'system-ui', '-apple-system', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
       },
       colors: {
         background: 'rgb(var(--background) / <alpha-value>)',
         foreground: 'rgb(var(--foreground) / <alpha-value>)',
-        'surface-elevated': 'rgb(var(--surface-elevated) / <alpha-value>)',
-        'surface-warm': 'rgb(var(--surface-warm) / <alpha-value>)',
-        border: 'rgb(var(--border) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        line: 'rgb(var(--line) / <alpha-value>)',
         'muted-foreground': 'rgb(var(--muted-foreground) / <alpha-value>)',
-        'accent-blue': 'rgb(var(--accent-blue) / <alpha-value>)',
-        'accent-purple': 'rgb(var(--accent-purple) / <alpha-value>)',
-        'accent-cyan': 'rgb(var(--accent-cyan) / <alpha-value>)',
-        'accent-mint': 'rgb(var(--accent-mint) / <alpha-value>)',
-        'accent-amber': 'rgb(var(--accent-amber) / <alpha-value>)',
       },
       borderColor: {
-        DEFAULT: 'rgb(var(--border) / <alpha-value>)',
-      },
-      boxShadow: {
-        card: '0 1px 2px rgba(0, 0, 0, 0.08)',
+        DEFAULT: 'rgb(var(--line) / <alpha-value>)',
       },
       borderRadius: {
         card: '14px',
-        tag: '10px',
       },
     },
   },

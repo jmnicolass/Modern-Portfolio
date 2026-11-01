@@ -1,23 +1,10 @@
 <template>
-  <section
-    v-reveal
-    :aria-labelledby="headingId"
-    class="codex-panel rounded-card border border-border bg-surface-warm p-4 sm:p-5"
-  >
-    <div class="flex items-end justify-between gap-3">
-      <div class="min-w-0">
-        <p v-if="index" class="mb-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          {{ index }}<template v-if="eyebrow"> / {{ eyebrow }}</template>
-        </p>
-        <h2 :id="headingId" class="text-lg font-semibold tracking-normal">{{ title }}</h2>
-      </div>
-      <div v-if="$slots.action" class="shrink-0">
-        <slot name="action" />
-      </div>
+  <section :aria-labelledby="headingId" class="py-16 sm:py-24">
+    <div v-reveal class="mx-auto mb-10 max-w-2xl text-center">
+      <h2 :id="headingId" class="text-4xl font-bold sm:text-5xl">{{ title }}</h2>
+      <p v-if="description" class="mt-3 text-lg text-muted-foreground">{{ description }}</p>
     </div>
-    <div class="mt-4">
-      <slot />
-    </div>
+    <slot />
   </section>
 </template>
 
@@ -26,8 +13,7 @@ import { computed } from 'vue';
 
 const props = defineProps({
   title: { type: String, required: true },
-  index: { type: String, default: '' }, // e.g. "01"
-  eyebrow: { type: String, default: '' } // mono label; defaults to title
+  description: { type: String, default: '' }
 });
 
 const headingId = computed(

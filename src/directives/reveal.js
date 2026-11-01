@@ -24,6 +24,11 @@ export default {
           el.classList.add('reveal-in');
           el.classList.remove('reveal-init');
           obs.unobserve(el);
+          // Hand transforms back to the element (hover lift, tilt) once it has shown.
+          setTimeout(() => {
+            el.classList.remove('reveal-in');
+            el.style.transitionDelay = '';
+          }, 750 + delay);
         });
       },
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }

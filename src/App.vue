@@ -1,80 +1,82 @@
 <template>
-  <div class="codex-shell min-h-screen bg-background text-foreground font-sans">
+  <div class="min-h-screen overflow-x-clip bg-background text-foreground">
     <!-- Resume modal -->
     <BaseModal
       :open="showResumeModal"
-      eyebrow="Resume"
+      eyebrow="Résumé"
       :title="profile.name"
       panel-class="max-w-5xl h-[90vh]"
-      body-class="h-[calc(90vh-69px)] bg-background"
+      body-class="h-[calc(90vh-77px)] bg-background"
       @close="showResumeModal = false"
     >
       <template #header-actions>
         <a :href="resumePdfUrl" download="Jan_Marco_Nicolas_Resume.pdf"
-          class="inline-flex h-9 items-center rounded-tag bg-foreground px-4 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-background transition-colors hover:bg-accent-mint">
-          Download
+          class="inline-flex h-9 items-center rounded-full bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-80">
+          Download PDF
         </a>
       </template>
-      <iframe :src="resumePdfUrl" class="h-full w-full" frameborder="0" type="application/pdf"></iframe>
+      <iframe :src="resumePdfUrl" class="h-full w-full" frameborder="0" type="application/pdf" title="Résumé"></iframe>
     </BaseModal>
 
     <!-- Project modal -->
     <BaseModal
       :open="showProjectModal"
-      eyebrow="Project"
+      :eyebrow="selectedProject?.category"
       :title="selectedProject?.title"
       panel-class="max-w-3xl"
       @close="showProjectModal = false"
     >
-      <div class="space-y-6">
-        <p class="text-[15px] leading-relaxed text-muted-foreground">{{ selectedProject?.description }}</p>
+      <div class="space-y-7">
+        <p class="max-w-prose text-[17px] leading-relaxed text-muted-foreground">{{ selectedProject?.description }}</p>
 
         <div v-if="selectedProject?.images" class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Gallery</h4>
-            <span class="font-mono text-[11px] text-muted-foreground">{{ selectedProject.images.length }} {{ selectedProject.images.length === 1 ? 'image' : 'images' }}</span>
+          <div class="flex items-baseline justify-between">
+            <h4 class="text-sm font-semibold">Screens</h4>
+            <span class="text-sm tabular-nums text-muted-foreground">{{ selectedProject.images.length }} {{ selectedProject.images.length === 1 ? 'image' : 'images' }}</span>
           </div>
           <div class="group/gallery relative">
-            <div ref="galleryContainer" class="no-scrollbar flex snap-x gap-3 overflow-x-auto pb-3">
+            <div ref="galleryContainer" class="no-scrollbar flex snap-x gap-3 overflow-x-auto pb-1">
               <button v-for="(img, index) in selectedProject.images" :key="index"
-                class="aspect-video w-72 flex-shrink-0 cursor-zoom-in snap-center overflow-hidden rounded-card border border-border bg-surface-elevated transition-colors hover:border-accent-cyan"
+                class="aspect-video w-72 flex-shrink-0 cursor-zoom-in snap-center overflow-hidden rounded-xl border border-line bg-surface"
+                :aria-label="`Open screen ${index + 1} full size`"
                 @click="openFullscreenImage(img)">
-                <img :src="img" class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                  alt="Project preview" />
+                <img :src="img" class="h-full w-full object-cover object-top" :alt="`${selectedProject.title} screen ${index + 1}`" />
               </button>
             </div>
-            <button @click="scrollLeft"
-              class="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-tag border border-border bg-background text-foreground opacity-0 shadow-card transition-opacity group-hover/gallery:opacity-100 md:flex"
-              aria-label="Scroll gallery left">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button @click="scrollRight"
-              class="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-tag border border-border bg-background text-foreground opacity-0 shadow-card transition-opacity group-hover/gallery:opacity-100 md:flex"
-              aria-label="Scroll gallery right">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            <template v-if="selectedProject.images.length > 2">
+              <button @click="scrollLeft"
+                class="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-foreground text-background opacity-0 transition-opacity group-hover/gallery:opacity-100 md:grid"
+                aria-label="Scroll gallery left">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button @click="scrollRight"
+                class="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-foreground text-background opacity-0 transition-opacity group-hover/gallery:opacity-100 md:grid"
+                aria-label="Scroll gallery right">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </template>
           </div>
         </div>
 
         <div>
-          <h4 class="mb-3 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Technologies</h4>
+          <h4 class="mb-3 text-sm font-semibold">Built with</h4>
           <div class="flex flex-wrap gap-2">
             <TechTag v-for="tech in selectedProject?.technologies" :key="tech">{{ tech }}</TechTag>
           </div>
         </div>
 
-        <div class="flex flex-col gap-3 pt-1 sm:flex-row">
+        <div class="flex flex-col gap-3 sm:flex-row">
           <a v-if="selectedProject?.link && selectedProject.link !== '#'" :href="selectedProject.link" target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex h-10 flex-1 items-center justify-center rounded-tag bg-foreground px-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-background transition-colors hover:bg-accent-mint">
-            Visit Project
+            class="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-foreground px-6 text-[15px] font-medium text-background transition-opacity hover:opacity-80">
+            Visit live site
           </a>
           <button @click="showProjectModal = false"
-            class="inline-flex h-10 items-center justify-center rounded-tag border border-border px-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] transition-colors hover:bg-surface-elevated">
+            class="inline-flex h-11 items-center justify-center rounded-full border border-line px-6 text-[15px] font-medium transition-colors hover:border-foreground">
             Close
           </button>
         </div>
@@ -87,264 +89,233 @@
       :eyebrow="selectedCertificate?.organization"
       :title="selectedCertificate?.title"
       panel-class="max-w-4xl"
-      overlay-class="bg-background/90"
       @close="showCertificateModal = false"
     >
       <img :src="selectedCertificate?.image" :alt="selectedCertificate?.title"
-        class="h-auto w-full rounded-card border border-border bg-background" />
+        class="h-auto w-full rounded-xl border border-line bg-background" />
       <a v-if="selectedCertificate?.verifyLink" :href="selectedCertificate?.verifyLink" target="_blank"
         rel="noopener noreferrer"
-        class="mt-5 inline-flex h-10 items-center gap-2 rounded-tag bg-accent-cyan px-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-background transition-opacity hover:opacity-90">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        Verify Credential
+        class="mt-5 inline-flex h-11 items-center rounded-full bg-foreground px-6 text-[15px] font-medium text-background transition-opacity hover:opacity-80">
+        Verify credential
       </a>
     </BaseModal>
 
     <!-- Fullscreen image viewer -->
     <Transition name="modal">
       <div v-if="showFullscreenModal"
-        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 backdrop-blur-2xl md:p-12"
+        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 p-4 md:p-12"
         role="dialog" aria-modal="true"
         @click="showFullscreenModal = false">
         <button @click="showFullscreenModal = false"
-          class="absolute right-6 top-6 z-10 grid h-11 w-11 place-items-center rounded-tag border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20"
-          aria-label="Close fullscreen image">
+          class="absolute right-6 top-6 z-10 grid h-11 w-11 place-items-center rounded-full bg-white text-black transition-opacity hover:opacity-80"
+          aria-label="Close full-size image">
           <span class="text-2xl leading-none">&times;</span>
         </button>
         <div class="flex h-full w-full items-center justify-center" @click.stop>
-          <img :src="selectedFullscreenImage" class="max-h-full max-w-full rounded-card object-contain animate-scale-in" />
+          <img :src="selectedFullscreenImage" alt="" class="max-h-full max-w-full rounded-xl object-contain animate-scale-in" />
         </div>
       </div>
     </Transition>
 
-    <div class="relative mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-      <!-- Nav -->
-      <nav class="codex-panel z-30 flex min-h-14 flex-wrap items-center justify-between gap-3 rounded-card border border-border bg-surface-warm/85 px-3 py-3 backdrop-blur-xl md:px-4">
-        <div class="flex min-w-0 items-center gap-3">
-          <div class="flex items-center gap-1.5" aria-hidden="true">
-            <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
-          </div>
-          <div class="hidden h-5 w-px bg-border sm:block"></div>
-          <p class="truncate font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            Portfolio / {{ profile.name }}
-          </p>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="hidden items-center gap-2 rounded-tag border border-border bg-background px-3 py-1.5 font-mono text-[11px] text-muted-foreground sm:inline-flex">
-            <span class="h-2 w-2 rounded-full bg-accent-mint shadow-[0_0_0_3px_rgb(var(--accent-mint)_/_0.35),0_0_10px_2px_rgb(var(--accent-mint)_/_0.9)] animate-pulse"></span>
-            Available
-          </span>
-          <button @click="darkMode = !darkMode"
-            class="inline-flex h-9 items-center gap-2 rounded-tag border border-border bg-background px-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-foreground"
-            :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
-            <svg v-if="!darkMode" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+    <!-- Top bar -->
+    <header
+      class="sticky top-0 z-30 border-b transition-colors"
+      :class="scrolled ? 'border-line bg-background/80 backdrop-blur-lg' : 'border-transparent'"
+    >
+      <div class="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:px-8">
+        <nav class="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex" aria-label="Sections">
+          <a v-for="link in navLinks" :key="link.href" :href="link.href" class="transition-colors hover:text-foreground">{{ link.label }}</a>
+        </nav>
+        <span class="md:hidden"></span>
+        <a href="#top"
+          class="grid h-11 w-11 place-items-center rounded-[14px] border border-line bg-background text-sm font-bold shadow-[0_4px_14px_rgb(0_0_0/0.08)] transition-transform hover:scale-105"
+          :aria-label="`${profile.name}, back to top`">
+          JM
+        </a>
+        <div class="flex items-center justify-end gap-2">
+          <button type="button" @click="openResumeModal"
+            class="hidden h-9 items-center rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex">
+            Résumé
+          </button>
+          <button type="button" @click="darkMode = !darkMode"
+            class="grid h-10 w-10 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+            :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+            <svg v-if="darkMode" class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0-1.414-1.414M7.05 7.05 5.636 5.636M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
             </svg>
-            <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <svg v-else class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
-            {{ darkMode ? 'dark' : 'light' }}
           </button>
         </div>
-      </nav>
+      </div>
+    </header>
 
+    <main id="top" class="mx-auto max-w-6xl px-5 sm:px-8">
       <!-- Hero -->
-      <header class="codex-hero overflow-hidden rounded-card border border-border bg-surface-warm">
-        <div class="grid gap-0 lg:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.65fr)]">
-          <div class="p-5 sm:p-7 lg:flex lg:flex-col lg:justify-center lg:p-8">
-            <div class="mb-8 flex flex-wrap items-center gap-2">
-              <span class="rounded-tag border border-accent-cyan/25 bg-accent-cyan/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-accent-cyan">
-                software engineer
-              </span>
-              <span class="rounded-tag border border-border bg-background px-3 py-1 font-mono text-[11px] text-muted-foreground">
-                based in {{ profile.location }}
-              </span>
-            </div>
-            <div class="max-w-3xl">
-              <p class="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-muted-foreground">Introduction</p>
-              <h1 class="text-4xl font-semibold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
-                {{ profile.name }}
-              </h1>
-              <p class="mt-5 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-                {{ profile.bio }}
-              </p>
-            </div>
+      <section class="relative isolate flex min-h-[calc(100svh-4rem)] flex-col items-center pb-36 pt-6 text-center sm:pb-48 sm:pt-10" aria-labelledby="hero-title">
+        <p class="enter text-xl font-semibold text-foreground/80 sm:text-2xl">Hey, I'm Marco</p>
+        <h1 id="hero-title" class="enter mt-1 text-5xl font-bold leading-[1.05] sm:text-7xl" style="--d: 80ms">Full-Stack Developer</h1>
 
-            <div class="mt-8 flex flex-wrap items-center gap-3">
-              <button @click="openResumeModal"
-                class="inline-flex h-11 items-center gap-2 rounded-tag bg-foreground px-4 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-background transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-mint">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414A1 1 0 0 1 19 9.414V19a2 2 0 0 1-2 2z" />
-                </svg>
-                View Resume
-              </button>
-              <a v-if="emailLink" :href="emailLink.url"
-                class="inline-flex h-11 items-center gap-2 rounded-tag border border-border bg-background px-4 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-cyan">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" />
-                </svg>
-                Send Email
-              </a>
-              <SocialLinks :links="socialLinks" />
-            </div>
-          </div>
+        <img
+          :src="profileImageUrl"
+          :alt="`Portrait of ${profile.name}`"
+          class="enter mt-8 h-40 w-40 rounded-full bg-surface object-cover object-top grayscale shadow-[0_24px_60px_rgb(0_0_0/0.18)] sm:h-60 sm:w-60"
+          style="--d: 160ms"
+          draggable="false"
+        />
 
-          <aside class="border-t border-border bg-surface-elevated/70 p-5 sm:p-7 lg:border-l lg:border-t-0">
-            <div class="relative overflow-hidden rounded-card border border-border bg-background">
-              <img
-                :src="profileImageUrl"
-                alt="Jan Marco Nicolas"
-                class="aspect-square w-full object-cover"
-                draggable="false"
-              />
-            </div>
+        <p class="enter mt-8 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:mt-10 sm:text-lg" style="--d: 240ms">
+          {{ profile.bio }}
+        </p>
 
-            <div class="mt-7 grid grid-cols-3 gap-2">
-              <StatCard v-for="stat in quickStats" :key="stat.label" :value="stat.value" :label="stat.label" />
-            </div>
-
-            <TerminalCard class="mt-5" />
-          </aside>
+        <div class="enter mt-8 flex flex-wrap items-center justify-center gap-3" style="--d: 320ms">
+          <a href="#contact"
+            class="btn-shine inline-flex h-12 items-center rounded-full bg-foreground px-6 text-[15px] font-semibold text-background transition-transform hover:-translate-y-0.5">
+            Start a project
+          </a>
+          <a href="#work"
+            class="inline-flex h-12 items-center rounded-full border border-line bg-background px-6 text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:border-foreground/40">
+            See my work
+          </a>
         </div>
-      </header>
 
-      <!-- Main -->
-      <main class="space-y-4 lg:space-y-6">
-        <!-- Featured Projects (promoted) -->
-        <BaseSection title="Featured Projects" index="01">
-          <div class="grid gap-4 sm:grid-cols-2">
-            <ProjectCard
-              v-for="(project, index) in projects"
-              :key="project.id"
-              :project="project"
-              :index="index"
-              @inspect="openProjectModal"
+        <p class="enter mt-6 inline-flex max-w-xs items-start gap-2 text-sm text-muted-foreground sm:max-w-none sm:items-center" style="--d: 400ms">
+          <span class="relative mt-1.5 flex h-2 w-2 shrink-0 sm:mt-0" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-40"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-foreground"></span>
+          </span>
+          Taking one new project now. Based in {{ profile.location }}.
+        </p>
+
+        <div class="watermark pointer-events-none absolute bottom-0 left-1/2 -z-10 w-screen -translate-x-1/2 select-none overflow-hidden text-center" aria-hidden="true">
+          <span class="block translate-y-[16%]">Marco</span>
+        </div>
+      </section>
+
+      <dl class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div v-for="(item, i) in trustStrip" :key="item.label" v-reveal="i * 80" v-spotlight
+          class="card flex flex-col p-5 sm:p-6">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-foreground text-background shadow-md">
+            <BaseIcon :name="item.icon" class="h-5 w-5" />
+          </span>
+          <dd class="mt-6 text-2xl font-bold sm:text-4xl">{{ item.value }}</dd>
+          <dt class="mt-1 text-sm leading-snug text-muted-foreground">{{ item.label }}</dt>
+        </div>
+      </dl>
+
+      <BaseSection id="work" title="Selected work" description="Client and product builds, from a live booking platform to an online store.">
+        <div class="grid gap-6 md:grid-cols-2">
+          <ProjectCard
+            v-for="(project, i) in projects"
+            :key="project.id"
+            v-reveal="i * 90"
+            :project="project"
+            @inspect="openProjectModal"
+          />
+        </div>
+      </BaseSection>
+
+      <BaseSection id="experience" title="Experience and education" description="Shipping production web software full time since 2024.">
+        <div class="grid gap-5 md:grid-cols-2">
+          <div v-for="(group, i) in timelineGroups" :key="group.title" v-reveal="i * 90" v-spotlight class="card p-6 sm:p-7">
+            <div class="mb-7 flex items-center gap-3">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-foreground text-background shadow-md">
+                <BaseIcon :name="group.icon" class="h-5 w-5" />
+              </span>
+              <div>
+                <h3 class="font-bold">{{ group.title }}</h3>
+                <p class="text-sm text-muted-foreground">{{ group.caption }}</p>
+              </div>
+            </div>
+            <TimelineItem
+              v-for="(entry, j) in group.items"
+              :key="entry.id"
+              :title="entry.title"
+              :subtitle="entry.subtitle"
+              :meta="entry.meta"
+              :current="group.title === 'Work' && j === 0"
             />
           </div>
-        </BaseSection>
+        </div>
+      </BaseSection>
 
-        <!-- Experience + Education -->
-        <div class="grid gap-4 lg:gap-6 lg:grid-cols-2">
-          <BaseSection title="Experience" index="02">
-            <div class="space-y-3">
-              <TimelineItem
-                v-for="(exp, index) in experience"
-                :key="exp.id"
-                :position="exp.position"
-                :company="exp.company"
-                :duration="exp.duration"
-                :present="index === 0"
-                :last="index === experience.length - 1"
-              />
-            </div>
-          </BaseSection>
-
-          <BaseSection title="Education" index="03">
-            <div class="space-y-2.5">
-              <div v-for="edu in education" :key="edu.id"
-                class="rounded-card border border-border bg-background p-3.5 transition-colors hover:border-accent-cyan/40">
-                <div class="flex items-start justify-between gap-3">
-                  <h3 class="text-sm font-semibold leading-snug">{{ edu.degree }}</h3>
-                  <span class="font-mono text-[11px] text-muted-foreground">{{ edu.year }}</span>
-                </div>
-                <p class="mt-2 text-xs leading-5 text-muted-foreground">{{ edu.school }}</p>
+      <BaseSection id="credentials" title="Credentials" description="Select an item with a certificate to view it.">
+        <div class="grid gap-5 md:grid-cols-2">
+          <div v-for="(group, i) in credentialGroups" :key="group.title" v-reveal="i * 90" v-spotlight class="card p-4 sm:p-5">
+            <div class="mb-3 flex items-center gap-3 px-2 pt-1">
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-foreground text-background shadow-md">
+                <BaseIcon :name="group.icon" class="h-5 w-5" />
+              </span>
+              <div>
+                <h3 class="font-bold">{{ group.title }}</h3>
+                <p class="text-sm text-muted-foreground">{{ group.items.length }} {{ group.unit }}</p>
               </div>
             </div>
-          </BaseSection>
+            <ul class="space-y-1">
+              <li v-for="item in group.items" :key="item.id">
+                <component
+                  :is="item.image ? 'button' : 'div'"
+                  :type="item.image ? 'button' : undefined"
+                  class="group/row flex w-full items-center justify-between gap-4 rounded-2xl px-3 py-3 text-left transition-colors"
+                  :class="item.image ? 'hover:bg-surface' : ''"
+                  @click="item.image ? openCertificateModal(item) : null"
+                >
+                  <span class="min-w-0">
+                    <span class="block font-semibold">{{ item.title }}</span>
+                    <span class="block truncate text-sm text-muted-foreground">{{ item.organization }} · {{ item.year }}</span>
+                  </span>
+                  <span v-if="item.image"
+                    class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-background transition-all group-hover/row:border-foreground group-hover/row:bg-foreground group-hover/row:text-background">
+                    <BaseIcon name="chevronRight" class="h-3.5 w-3.5" />
+                  </span>
+                </component>
+              </li>
+            </ul>
+          </div>
         </div>
+      </BaseSection>
 
-        <!-- Tech Stack -->
-        <BaseSection title="Tech Stack" index="04">
-          <div class="grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-            <div v-for="skillGroup in skills" :key="skillGroup.category">
-              <p class="mb-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{{ skillGroup.category }}</p>
-              <div class="flex flex-wrap gap-2">
-                <TechTag v-for="skill in skillGroup.items" :key="skill">{{ skill }}</TechTag>
-              </div>
-            </div>
-          </div>
-        </BaseSection>
+      <BaseSection title="Tools" description="What I build with day to day. Hover a tool to see it in color.">
+        <ToolStack :groups="skills" />
+      </BaseSection>
 
-        <!-- Awards + Certifications -->
-        <div class="grid gap-4 lg:gap-6 md:grid-cols-2">
-          <BaseSection title="Awards" index="05">
-            <div class="divide-y divide-border overflow-hidden rounded-card border border-border">
-              <button v-for="a in awards" :key="a.id"
-                class="flex w-full items-start justify-between gap-3 bg-background p-3 text-left transition-colors"
-                :class="a.image ? 'cursor-pointer hover:bg-surface-elevated' : 'cursor-default'"
-                @click="a.image ? openCertificateModal(a) : null">
-                <span class="min-w-0">
-                  <span class="block text-sm font-medium">{{ a.title }}</span>
-                  <span class="block text-xs text-muted-foreground">{{ a.organization }}</span>
-                </span>
-                <span class="shrink-0 font-mono text-[11px] text-muted-foreground">{{ a.year }}</span>
-              </button>
-            </div>
-          </BaseSection>
+      <!-- Contact -->
+      <section id="contact" v-reveal v-spotlight class="card contact-dots my-12 flex flex-col items-center overflow-hidden px-6 py-16 text-center sm:my-20 sm:px-12 sm:py-20"
+        aria-labelledby="contact-title">
+        <h2 id="contact-title" class="max-w-2xl text-balance text-4xl font-bold sm:text-6xl">Have a project in mind? Let's talk.</h2>
+        <p class="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          Tell me what you need, who it's for and when you'd like to launch. I'll reply within 24 hours with next steps, and an honest answer if I'm not the right fit.
+        </p>
+        <a :href="emailLink.url"
+          class="btn-shine mt-9 inline-flex h-12 items-center rounded-full bg-foreground px-6 text-[15px] font-semibold text-background transition-transform hover:-translate-y-0.5">
+          Email me about your project
+        </a>
+        <a :href="emailLink.url" class="mt-2 py-2 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">
+          {{ emailAddress }}
+        </a>
+        <SocialLinks class="mt-8 justify-center" :links="socialLinks" />
+      </section>
+    </main>
 
-          <BaseSection title="Certifications" index="06">
-            <div class="space-y-2.5">
-              <button v-for="c in certifications" :key="c.id"
-                class="w-full rounded-card border border-border bg-background p-3.5 text-left transition-colors hover:border-accent-cyan"
-                @click="openCertificateModal(c)">
-                <h3 class="text-sm font-semibold leading-snug">{{ c.title }}</h3>
-                <p class="mt-1 text-xs text-muted-foreground">{{ c.organization }} / {{ c.year }}</p>
-              </button>
-            </div>
-          </BaseSection>
-        </div>
-
-        <!-- Hobbies + QR -->
-        <BaseSection :title="hobbies.title" index="07">
-          <div class="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-            <p class="max-w-2xl text-[15px] leading-7 text-muted-foreground">{{ hobbies.description }}</p>
-            <div class="rounded-card border border-border bg-background p-2.5">
-              <img src="/QR%20RESUME/portfolio-qr.png" alt="Portfolio QR"
-                class="h-20 w-20 rounded-sm object-contain"
-                :class="darkMode ? 'invert' : ''" />
-            </div>
-          </div>
-        </BaseSection>
-
-        <!-- Contact -->
-        <section v-reveal class="codex-contact rounded-card border border-border bg-foreground p-5 text-background sm:p-6">
-          <div class="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-            <div>
-              <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Let's build something precise.</h2>
-              <p class="mt-2 max-w-2xl text-[15px] leading-7 opacity-70">
-                Have a project in mind or just want to connect? My inbox is open.
-              </p>
-            </div>
-            <a v-if="emailLink" :href="emailLink.url"
-              class="inline-flex h-10 items-center justify-center gap-2 rounded-tag bg-background px-4 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-foreground transition-opacity hover:opacity-90">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" />
-              </svg>
-              Get in touch
-            </a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="flex flex-col items-center justify-center gap-1.5 border-t border-border py-4 text-center">
-        <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">© 2026 Jan Marco Nicolas</p>
-      </footer>
-    </div>
+    <footer class="mx-auto flex max-w-6xl flex-col items-center gap-2 border-t border-line px-5 pb-24 pt-8 text-sm text-muted-foreground sm:flex-row sm:justify-between sm:px-8 sm:pb-8">
+      <p>© 2026 {{ profile.name }}</p>
+      <div class="flex items-center gap-6">
+        <button type="button" class="py-2 transition-colors hover:text-foreground" @click="openResumeModal">Résumé (PDF)</button>
+        <a v-for="link in socialLinks" :key="link.id" :href="link.url" target="_blank" rel="noopener noreferrer"
+          class="py-2 transition-colors hover:text-foreground">{{ link.label }}</a>
+      </div>
+    </footer>
 
     <ChatWidget
       :profile="profile"
+      :avatar="profileImageUrl"
       :skills="skills"
       :projects="projects"
       :experience="experience"
       :education="education"
       :awards="awards"
       :certifications="certifications"
-      :hobbies="hobbies"
       :social-links="socialLinks"
       :email="emailLink.url"
     />
@@ -352,28 +323,27 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import SocialLinks from './components/SocialLinks.vue';
 import BaseSection from './components/BaseSection.vue';
 import BaseModal from './components/BaseModal.vue';
 import TechTag from './components/TechTag.vue';
 import ProjectCard from './components/ProjectCard.vue';
 import TimelineItem from './components/TimelineItem.vue';
-import StatCard from './components/StatCard.vue';
-import TerminalCard from './components/TerminalCard.vue';
 import ChatWidget from './components/ChatWidget.vue';
+import BaseIcon from './components/BaseIcon.vue';
+import ToolStack from './components/ToolStack.vue';
 import profileImageUrl from './assets/profile/Profile-sharp.png';
 
-// Dark-first: stored choice wins; else honor OS; default to dark.
+// Light-first: stored choice wins; else honor an OS dark preference.
 const getInitialDark = () => {
   try {
     const stored = localStorage.getItem('theme');
     if (stored) return stored === 'dark';
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) return false;
-  } catch (e) {
-    /* no-op */
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } catch {
+    return false;
   }
-  return true;
 };
 
 const darkMode = ref(getInitialDark());
@@ -385,7 +355,7 @@ watch(
     root.classList.toggle('dark', val);
     try {
       localStorage.setItem('theme', val ? 'dark' : 'light');
-    } catch (e) {
+    } catch {
       /* no-op */
     }
   },
@@ -404,9 +374,10 @@ const galleryContainer = ref(null);
 
 const profile = ref({
   name: 'Jan Marco Nicolas',
+  preferredName: 'Marco',
   location: 'Biñan City, Laguna, Philippines',
-  title: 'Software Engineer',
-  bio: 'Highly motivated and detail-oriented Software Engineer with a passion for crafting intuitive and responsive web interfaces. Eager to leverage expertise in Vue.js, React, and modern front-end technologies to develop innovative web applications and enhance user experiences. A quick learner and problem-solver, adept at collaborating with cross-functional teams to deliver high-quality, user-focused solutions.'
+  title: 'Full-Stack Developer',
+  bio: 'I design, build and launch web apps for small businesses and startups in the Philippines and overseas: booking systems, online stores and dashboards, from the database to the last pixel. One developer, no hand-offs, clear updates every week.'
 });
 
 const openResumeModal = () => {
@@ -444,7 +415,7 @@ const scrollLeft = () => {
 
 const socialLinks = ref([
   { id: 1, icon: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/jan-marco-nicolas-a3996a206' },
-  { id: 4, icon: 'github', label: 'Github', url: 'https://github.com/jmnicolass' },
+  { id: 4, icon: 'github', label: 'GitHub', url: 'https://github.com/jmnicolass' },
 ]);
 
 const education = ref([
@@ -472,24 +443,22 @@ const achievements = ref([
 const awards = computed(() => achievements.value.filter((a) => !a.verifyLink));
 const certifications = computed(() => achievements.value.filter((a) => !!a.verifyLink));
 const emailLink = computed(() => ({ url: 'mailto:jmncls08@gmail.com' }));
-
-const hobbies = ref({
-  title: 'Life Outside Code',
-  description: 'When I\'m not coding, I enjoy playing FPS games on mobile and PC. I also enjoy watching movies and series.'
-});
+const emailAddress = computed(() => emailLink.value.url.replace(/^mailto:/, ''));
 
 const skills = ref([
   { category: 'Frontend', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Vue.js', 'React'] },
   { category: 'Backend', items: ['PHP', 'Laravel', 'Node.js'] },
   { category: 'Database', items: ['MySQL'] },
-  { category: 'Tools', items: ['Tailwind CSS', 'UIKit', 'Git'] }
+  { category: 'Tools', items: ['Tailwind CSS', 'UIKit', 'Git'] },
+  { category: 'AI', items: ['Claude', 'ChatGPT'] }
 ]);
 
 const projects = ref([
   {
     id: 1,
-    title: 'Travel & Tours',
-    description: 'This is a freelance capstone project for a travel and tours company, aimed at automating their booking system, creating customizable travel packages, offering seasonal promotions, and tracking both income and overall bookings.',
+    title: 'JE Travel & Tours',
+    category: 'Booking platform for a travel agency',
+    description: 'A travel agency needed to take bookings online and stop juggling packages, promos and income by hand. I built their booking platform end to end: customizable travel packages, seasonal promotions, and an admin dashboard that tracks bookings and income in one place.',
     technologies: ['Vue JS', 'Laravel', 'MySQL', 'Tailwind CSS'],
     link: 'https://jetravelandtours.com',
     images: [
@@ -499,7 +468,8 @@ const projects = ref([
   {
     id: 2,
     title: 'JMOS',
-    description: 'A full-stack e-commerce application designed to deliver a high-end, "industrial executive" shopping experience. Built with a focus on performance and modern aesthetics, the platform features a custom-built Laravel API backend and a dynamic React frontend.',
+    category: 'Online store',
+    description: 'A full-stack online store with a premium, "industrial executive" look. I built the custom Laravel 11 API and the React + TypeScript storefront, with a focus on fast page loads and a polished shopping experience.',
     technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS', 'Laravel 11 (PHP)', 'MySQL'],
     link: 'https://jmos.vercel.app/',
     images: [
@@ -509,7 +479,8 @@ const projects = ref([
   {
     id: 3,
     title: 'WealthWarp',
-    description: 'WealthWarp is a modern, premium personal finance management application designed to help users take control of their financial health. It features a sleek interface with "glassmorphic" design elements and smooth animations to provide a high-end user experience.',
+    category: 'Personal finance app',
+    description: 'A budgeting and expense tracker with secure user accounts (Laravel Sanctum), a REST API and a polished, animated dashboard. It shows I can build authenticated, data-heavy apps end to end.',
     technologies: ['Vue JS', 'Vite', 'Pinia', 'Tailwind CSS', 'Axios', 'Laravel 12 (PHP)', 'Laravel Sanctum', 'MySQL', 'RESTful API'],
     link: 'https://wealthwarp-tracker.vercel.app',
     images: [
@@ -525,55 +496,72 @@ const projects = ref([
   },
   {
     id: 4,
-    title: 'Modern Portfolio',
-    description: 'A premium, developer-first portfolio for Jan Marco Nicolas, Software Engineer. Inspired by the clean, minimal aesthetic of OpenAI Codex, it features a dark-first theme with a light/dark toggle, a monospace typographic system, and a subtle terminal-style interface. The site showcases his featured projects, work experience, tech stack, education, awards, and certifications — with an interactive project gallery, embedded résumé viewer, and verifiable credentials. Built with Vue 3 and Tailwind CSS, using reusable components, scroll-reveal animations, and an accessible, responsive design.',
-    technologies: ['Vue JS', 'Tailwind CSS', 'JavaScript', 'Canvas API'],
-    link: 'https://jmncls.vercel.app/',
+    title: 'CoreDesk',
+    category: 'Native macOS app',
+    description: 'A private, local-first workspace for developers on the Mac: tickets, work hours, notes, reminders, bookmarks and a Touch ID–protected vault for API keys. No account, no cloud and no tracking; everything stays on your machine, with encrypted backups and instant full-text search.',
+    technologies: ['Swift 6', 'SwiftUI', 'SQLite (GRDB)', 'Keychain', 'Touch ID', 'CryptoKit'],
+    link: '#',
     images: [
-      '/project-portfolio/Portfolio.png'
+      '/project-coredesk/1.png',
+      '/project-coredesk/2.png',
+      '/project-coredesk/3.png',
+      '/project-coredesk/4.png',
+      '/project-coredesk/5.png',
+      '/project-coredesk/6.png',
+      '/project-coredesk/7.png',
+      '/project-coredesk/8.png'
     ]
   }
 ]);
 
-const quickStats = computed(() => [
-  { label: 'projects', value: String(projects.value.length).padStart(2, '0') },
-  { label: 'awards', value: String(awards.value.length).padStart(2, '0') },
-  { label: 'certs', value: String(certifications.value.length).padStart(2, '0') }
+const trustStrip = computed(() => [
+  { icon: 'clock', label: 'Years building production software', value: '2+' },
+  { icon: 'cap', label: 'BS Information Technology', value: 'Cum Laude' },
+  { icon: 'trophy', label: 'Titanium Skills Awards at Qstrike', value: String(awards.value.filter((a) => a.title.startsWith('Titanium')).length) },
+  { icon: 'badge', label: 'AI certifications from Anthropic and OpenAI', value: String(certifications.value.length) }
 ]);
+
+const timelineGroups = computed(() => [
+  {
+    title: 'Work',
+    icon: 'briefcase',
+    caption: 'Qstrike Innovations',
+    items: experience.value.map((e) => ({ id: e.id, title: e.position, subtitle: e.company, meta: e.duration }))
+  },
+  {
+    title: 'Education',
+    icon: 'cap',
+    caption: 'Degrees and training',
+    items: education.value.map((e) => ({ id: e.id, title: e.degree, subtitle: e.school, meta: e.year }))
+  }
+]);
+
+const credentialGroups = computed(() => [
+  { title: 'Awards', icon: 'trophy', unit: 'awards', items: awards.value },
+  { title: 'Certifications', icon: 'badge', unit: 'verified certificates', items: certifications.value }
+]);
+
+
+const navLinks = [
+  { label: 'Work', href: '#work' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Credentials', href: '#credentials' },
+  { label: 'Contact', href: '#contact' }
+];
+
+// Hairline under the top bar once the page scrolls.
+const scrolled = ref(false);
+const onScroll = () => {
+  scrolled.value = window.scrollY > 8;
+};
+onMounted(() => {
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+});
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll));
 </script>
 
 <style scoped>
-.codex-shell {
-  position: relative;
-  isolation: isolate;
-}
-
-.codex-shell::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  content: '';
-  background-image:
-    linear-gradient(rgb(var(--border) / 0.28) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--border) / 0.28) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
-  pointer-events: none;
-}
-
-.codex-panel,
-.codex-hero {
-  box-shadow:
-    inset 0 1px 0 rgb(var(--foreground) / 0.04),
-    0 10px 32px rgb(0 0 0 / 0.12);
-}
-
-.codex-contact {
-  background-image:
-    linear-gradient(135deg, rgb(var(--accent-cyan) / 0.16), transparent 38%),
-    linear-gradient(315deg, rgb(var(--accent-mint) / 0.18), transparent 42%);
-}
-
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -586,7 +574,7 @@ const quickStats = computed(() => [
 /* Fullscreen viewer transition (BaseModal owns the shared modal animation). */
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .modal-enter-from,

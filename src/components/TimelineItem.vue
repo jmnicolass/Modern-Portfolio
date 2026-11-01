@@ -1,37 +1,29 @@
 <template>
-  <div
-    class="relative grid grid-cols-[18px_minmax(0,1fr)] gap-3"
-    :class="last
-      ? ''
-      : 'before:absolute before:bottom-[-45px] before:left-[8.5px] before:top-[33px] before:w-px before:bg-border before:content-[\'\']'"
-  >
-    <div
-      class="relative z-10 mt-[26px] grid h-3.5 w-3.5 place-items-center justify-self-center rounded-full border-2 transition-colors"
-      :class="present
-        ? 'border-accent-mint bg-surface-warm shadow-[0_0_0_4px_rgb(var(--surface-warm)),0_0_12px_rgb(var(--accent-mint)_/_0.35)]'
-        : 'border-border bg-surface-warm shadow-[0_0_0_4px_rgb(var(--surface-warm))]'"
+  <div class="tl-item relative pb-6 pl-8 last:pb-0">
+    <span class="tl-rail absolute bottom-0 left-[7px] top-5 w-px bg-line" aria-hidden="true"></span>
+    <span
+      class="absolute left-0 top-1 grid h-[15px] w-[15px] place-items-center rounded-full border-2 border-foreground bg-background"
+      aria-hidden="true"
     >
-      <span
-        class="h-1.5 w-1.5 rounded-full"
-        :class="present ? 'bg-accent-mint' : 'bg-muted-foreground/40'"
-      ></span>
+      <span v-if="current" class="h-[5px] w-[5px] rounded-full bg-foreground"></span>
+    </span>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <h4 class="font-semibold leading-snug">{{ title }}</h4>
+      <span v-if="current" class="inline-flex items-center gap-1.5 rounded-full bg-foreground px-2 py-0.5 text-[11px] font-semibold text-background">
+        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-background"></span>
+        Current
+      </span>
     </div>
-    <div class="min-w-0 rounded-card border border-border bg-background p-3.5 transition-colors hover:border-accent-cyan/40">
-      <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-        <h3 class="font-semibold leading-tight">{{ position }}</h3>
-        <span class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">{{ duration }}</span>
-      </div>
-      <p class="mt-1 text-sm text-muted-foreground">{{ company }}</p>
-    </div>
+    <p class="mt-0.5 text-sm text-muted-foreground">{{ subtitle }}</p>
+    <p class="mt-2 inline-flex rounded-md bg-surface px-2 py-0.5 text-xs font-medium tabular-nums">{{ meta }}</p>
   </div>
 </template>
 
 <script setup>
 defineProps({
-  position: { type: String, required: true },
-  company: { type: String, required: true },
-  duration: { type: String, required: true },
-  present: { type: Boolean, default: false },
-  last: { type: Boolean, default: false }
+  title: { type: String, required: true },
+  subtitle: { type: String, required: true },
+  meta: { type: String, required: true },
+  current: { type: Boolean, default: false }
 });
 </script>

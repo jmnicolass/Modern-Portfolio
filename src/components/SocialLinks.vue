@@ -2,7 +2,7 @@
   <div class="flex flex-wrap gap-2">
     <a v-for="link in links" :key="link.id" :href="link.url" target="_blank" rel="noopener noreferrer"
       :aria-label="link.label"
-      class="rounded-card flex items-center justify-center border border-border bg-surface-elevated text-foreground transition-colors hover:bg-foreground hover:text-background"
+      class="flex items-center justify-center rounded-full border border-line text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
       :class="sizeClass">
       <span :class="iconClass">
         <svg v-if="link.icon === 'linkedin'" fill="currentColor" viewBox="0 0 24 24">
@@ -36,6 +36,6 @@ const props = defineProps({
   size: { type: String, default: 'md' } // 'md' | 'lg'
 });
 
-const sizeClass = computed(() => (props.size === 'lg' ? 'w-11 h-11' : 'w-10 h-10'));
+const sizeClass = computed(() => (props.size === 'lg' ? 'w-12 h-12' : 'w-10 h-10'));
 const iconClass = computed(() => (props.size === 'lg' ? 'w-[18px] h-[18px]' : 'w-4 h-4'));
 </script>
